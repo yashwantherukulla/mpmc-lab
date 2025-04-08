@@ -582,55 +582,6 @@ int main() {
 }
 ```
 
-## KMP
-```cpp
-#include<iostream>
-#include<vector>
-#include<string>
-using namespace std;
-vector<int> computeLPS(string pat){
-    int m=pat.size(),len=0;
-    vector<int> lps(m,0);
-    for(int i=1;i<m;){
-        if(pat[i]==pat[len]){
-            lps[i++]=++len;
-        } else if(len){
-            len=lps[len-1];
-        } else {
-            lps[i++]=0;
-        }
-    }
-    return lps;
-}
-void KMPSearch(string txt, string pat){
-    int n=txt.size(),m=pat.size();
-    bool found = false;
-    vector<int> LPS = computeLPS(pat);
-    for(int i=0,j=0;i<n;){
-        if(txt[i]==pat[j]){
-            i++;
-            j++;
-        }
-        if(j==m){
-            cout << "Found pattern at index " << i-j << endl;
-            found=true;
-            j=LPS[j-1];
-        } else if (i<n && txt[i]!=pat[j]){
-            if (j) j=LPS[j-1];
-            else i++;
-        }
-    }
-    if (!found) cout << "Pattern not found" << endl;
-}
-int main(){
-    string a,b;
-    getline(cin,a);
-    getline(cin,b);
-    KMPSearch(a, b);
-    return 0;
-}
-```
-
 ## Rabin Karp
 ```cpp
 #include<iostream>
@@ -663,46 +614,6 @@ int main() {
 }
 ```
 
-## MCM
-```cpp
-#include<iostream>
-#include<vector>
-using namespace std;
-void printmat(vector<vector<int>> &s,int i, int j){
-    if(i==j){
-        cout<<'A'<<i;
-        return;
-    }
-    cout<<'(';
-    printmat(s,i,s[i][j]);
-    printmat(s,s[i][j]+1,j);
-    cout<<')';
-}
-int main(){
-    vector<int> p;
-    int x;
-    while(cin>>x && x!=-1) p.push_back(x);
-    int n=p.size()-1;
-    vector<vector<int>> m(n+1,vector<int>(n+1,0));
-    vector<vector<int>> s(n+1,vector<int>(n+1,0));
-    for(int len=2;len<=n;len++){
-        for(int i=1;i<=n-len+1;i++){
-            int j=i+len-1;
-            m[i][j] = 1e9;
-            for(int k=i;k<j;k++){
-                int c = m[i][k]+m[k+1][j]+p[i-1]*p[k]*p[j];
-                if(c< m[i][j]){
-                    m[i][j]=c;
-                    s[i][j]=k;
-                }
-            }
-        }
-    }
-    cout << m[1][n] << endl;
-    printmat(s, 1, n);
-    return 0;
-}
-```
 ## Flloyd Warshall
 ```cpp
 #include<iostream>
@@ -790,55 +701,6 @@ int main(){
     for (int i = 0; i < n; i++)
         cin >> points[i].x >> points[i].y;
     cout << convexHull(points);
-    return 0;
-}
-```
-
-## N Queens
-```cpp
-#include<iostream>
-#include<vector>
-#include<unordered_set>
-using namespace std;
-void solve(int row, int n, 
-    unordered_set<int> &cols, 
-    unordered_set<int> &pdiag, 
-    unordered_set<int> &ndiag, 
-    vector<string> &board,
-    vector<vector<string>> &result 
-) {
-    if(row==n){
-        result.push_back(board);
-        return;
-    }
-    for(int col=0;col<n;col++){
-        if(cols.count(col)||pdiag.count(row+col)||ndiag.count(row-col)){
-            continue;
-        }
-        cols.insert(col);
-        pdiag.insert(row+col);
-        ndiag.insert(row-col);
-        board[row][col]='Q';
-        solve(row+1,n,cols,pdiag,ndiag,board,result);
-        board[row][col]='.';
-        cols.erase(col);
-        pdiag.erase(row+col);
-        ndiag.erase(row-col);
-    }
-}
-int main(){
-    int n=8;
-    vector<vector<string>> result;
-    vector<string> board(n,string(n,'.'));
-    unordered_set<int> cols,pdiag,ndiag;
-    solve(0,n,cols,pdiag,ndiag,board, result);
-    cout<<"Solution Found: "<<result.size()<<endl;
-    for(auto& sol: result){
-        for(auto& row: sol){
-            cout<<row<<endl;
-        }
-        cout<<endl;
-    }
     return 0;
 }
 ```
