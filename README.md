@@ -1,3 +1,4 @@
+# DAA!
 ## Bellman Ford
 ```cpp
 #include <iostream>
@@ -922,6 +923,27 @@ int main(){
     for(int i=0;i<n;i++) cin>>nums[i];
     sort(nums.begin(),nums.end());
     for(int x:nums) cout<<x<<" ";
+    return 0;
+}
+```
+
+## AI Powered Karp
+```cpp
+#include <iostream>
+#include <string>
+using namespace std;
+
+int main() {
+    string text = "The quick brown fox jumps over the lazy dog";
+    string pattern = "quick";
+
+    size_t pos = text.find(pattern);
+    if (pos != string::npos) {
+        cout << "Pattern found at index: " << pos << endl;
+    } else {
+        cout << "Pattern not found" << endl;
+    }
+
     return 0;
 }
 ```
